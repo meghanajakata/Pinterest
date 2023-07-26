@@ -1,0 +1,6 @@
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\bin\Debug\BusinessModels.dll
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\bin\Debug\BusinessModels.pdb
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\obj\Debug\BusinessModels.csproj.AssemblyReference.cache
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\obj\Debug\BusinessModels.csproj.CoreCompileInputs.cache
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\obj\Debug\BusinessModels.dll
+C:\Users\Meghana Jakata\source\repos\Pinterest\BusinessModels\obj\Debug\BusinessModels.pdb
