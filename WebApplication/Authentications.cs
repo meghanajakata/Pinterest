@@ -33,11 +33,7 @@ namespace WebApplication
                 return Literals.Invalid_Password;
             }
 
-            if (balObj.SignUp(user))
-            {
-                return Literals.SignUp_Success;
-            }
-            return Literals.User_Exists;
+           return balObj.SignUp(user);
         }
 
         /// <summary>
@@ -57,11 +53,7 @@ namespace WebApplication
             {
                 return Literals.Invalid_Password;
             }
-            if(balObj.Login(user))
-            {
-                return Literals.Login_Success;
-            }
-            return Literals.Invalid_Login;
+            return balObj.Login(user);  
         }
 
         /// <summary>
@@ -71,7 +63,8 @@ namespace WebApplication
         /// <returns></returns>
         public string ForgotPassword(UserDetails user)
         {
-            return Literals.Password_Update_Successful;
+            BALAuthentications balObj = new BALAuthentications();
+            return balObj.ForgotPassword(user);
         }
 
         /// <summary>

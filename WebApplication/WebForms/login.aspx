@@ -49,13 +49,13 @@
          <div class="container">
             <h1>SignIn</h1>
             <asp:TextBox class="textbox_display" ID="username_textbox" runat="server" placeholder="Username" ></asp:TextBox>
-            <asp:TextBox class="textbox_display" ID="password_textbox" runat="server" placeholder="Password"></asp:TextBox>
+            <asp:TextBox class="textbox_display" ID="password_textbox" runat="server" placeholder="Password" TextMode="Password"></asp:TextBox>
             <br />
             <asp:Label ID="isValidLogin_textbox" ForeColor="Red" runat="server" ></asp:Label>
             <br />
             <a href="forgot_password.aspx">Forgot Password</a>
             <br />
-            <asp:Button ID="signin_button" runat="server" Text="SignIn" OnClick="SignIn_Click"></asp:Button>
+            <asp:Button ID="signin_button" runat="server" Text="SignIn" OnClick="SignIn_Click" ></asp:Button>
         </div>
     </form>
 </body>

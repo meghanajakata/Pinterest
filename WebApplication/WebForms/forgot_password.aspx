@@ -52,7 +52,11 @@
             <asp:TextBox class="textbox_display" ID="confirmPassword_textbox" runat="server" placeholder="Confirm Password" TextMode="Password"></asp:TextBox>
 
             <br />
-            <asp:Label ID="isvalid_textbox" ForeColor="Green" runat="server" ></asp:Label>
+            <div>
+                <asp:Label ID="isvalid_textbox" ForeColor="Green" runat="server" ></asp:Label>
+                <br />
+                <a href="login.aspx">Back to Login</a>
+            </div>
             <br />
             
              <asp:Button ID="submit_button" runat="server" Text="Submit" OnClick="Submit_Click"></asp:Button>

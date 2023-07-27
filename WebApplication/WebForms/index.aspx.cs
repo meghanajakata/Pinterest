@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -32,7 +33,16 @@ namespace WebApplication.WebForms
             {
                 Authentications authObj = new Authentications();
                 string isValidUser = authObj.Signup(user);
-                isvalidRegistration_textbox.Text = isValidUser;
+                
+                if(isValidUser == Literals.SignUp_Success)
+                {
+                    Response.Redirect("login.aspx");
+                }
+
+                else
+                {
+                    isvalidRegistration_textbox.Text = isValidUser;
+                }
             }
             
         }
@@ -41,5 +51,7 @@ namespace WebApplication.WebForms
         {
             Response.Redirect("login.aspx");
         }
+
+        
     }
 }

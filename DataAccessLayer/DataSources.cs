@@ -1,6 +1,7 @@
 ﻿using BusinessModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -18,40 +19,40 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool AddUser(UserDetails user)
+        public string AddUser(UserDetails user)
         {
             SqlConnection conn = new SqlConnection(Literals.DbConnection);
 
-            if(IsUserSignedIn(user))
+            string can_AddUser = IsUserSignedIn(user);
+            if (can_AddUser == Literals.User_Doesnt_Exist)
             {
-                return false;
+                try
+                {
+                    string query = "insert into people values( @Username,@EmailId,@Password)";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    cmd.Parameters.AddWithValue("@Username", user.UserName);
+                    cmd.Parameters.AddWithValue("@EmailId", user.Email);
+                    cmd.Parameters.AddWithValue("@Password", user.Password);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    return Literals.SignUp_Success;
+
+                }
+
+                catch (SqlException ex)
+                {
+                    Literals.AddUser_Exception = ex.Message.ToString();
+                }
+
+                finally
+                {
+                    conn.Close();
+                }
+                return Literals.AddUser_Exception;
             }
-
-            try
-            {
-                string query = "insert into people values( @Username,@EmailId,@Password)";
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                cmd.Parameters.AddWithValue("@Username", user.UserName);
-                cmd.Parameters.AddWithValue("@EmailId", user.Email);
-                cmd.Parameters.AddWithValue("@Password", user.Password);
-                
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                return true;
-
-            }
-
-            catch(SqlException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            finally
-            {
-                conn.Close();
-            }
-            return false;
+            return can_AddUser;
         }
 
         /// <summary>
@@ -59,10 +60,9 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool IsUserExists(UserDetails user)
+        public string IsUserExists(UserDetails user)
         {
             SqlConnection conn = new SqlConnection(Literals.DbConnection);
-            int count;
 
             try
             {
@@ -78,19 +78,20 @@ namespace DataAccessLayer
 
                 if(dataReaderObj.HasRows)
                 {
-                    return true;
+                    return Literals.User_Exists;
                 }
 
-                return false;
+                return Literals.User_Doesnt_Exist;
             }
             catch(SqlException ex)
             {
-                return false;
+                Literals.IsUserExists_Exception = ex.Message.ToString();
             }
             finally
             {
                 conn.Close();
             }
+            return Literals.IsUserExists_Exception;
             
         }
 
@@ -99,11 +100,9 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool IsUserSignedIn(UserDetails user)
+        public string IsUserSignedIn(UserDetails user)
         {
             SqlConnection conn = new SqlConnection(Literals.DbConnection);
-            int count;
-
             try
             {
                 string query = "select * from people where username = @Username";
@@ -117,19 +116,61 @@ namespace DataAccessLayer
 
                 if (dataReaderObj.HasRows)
                 {
-                    return true;
+                    return Literals.User_Exists;
                 }
 
-                return false;
+                return Literals.User_Doesnt_Exist;
             }
             catch (SqlException ex)
             {
-                return false;
+                Literals.IsUserSignedIn_Exception = ex.Message.ToString();
             }
             finally
             {
                 conn.Close();
             }
+            return Literals.IsUserSignedIn_Exception;
+        }
+
+        /// <summary>
+        /// Updates the user with new password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public string UpdateUser(UserDetails user)
+        {
+            SqlConnection conn = new SqlConnection(Literals.DbConnection);
+
+            try
+            {
+                string query = "update people set password = @Password where username = @Username";
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("Username", user.UserName);
+                cmd.Parameters.AddWithValue("Password", user.Password);
+
+                conn.Open();
+
+                int rowsUpdated = cmd.ExecuteNonQuery();
+
+                if(rowsUpdated > 0)
+                {
+                    return Literals.Password_Update_Successful;
+
+                }
+                return Literals.Password_Update_Unsuccessful;
+
+            }
+            catch (SqlException ex)
+            {
+                Literals.UpdateUser_Exception = ex.Message.ToString();
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return Literals.UpdateUser_Exception;
+
         }
     }
 }

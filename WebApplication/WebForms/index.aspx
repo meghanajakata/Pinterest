@@ -78,7 +78,7 @@
             <div class="innerContainer2">
                 <h1>Create Account</h1>
                 <asp:TextBox class="textbox_display" ID="username_textbox" runat="server" placeholder="Username" ></asp:TextBox>
-                <asp:TextBox class="textbox_display" ID="email_textbox" runat="server" placeholder="Emailid"></asp:TextBox>
+                <asp:TextBox class="textbox_display" ID="email_textbox" runat="server" placeholder="Emailid" TextMode="Email"></asp:TextBox>
                 <asp:TextBox class="textbox_display" ID="password_textbox" runat="server" placeholder="Password" TextMode="Password"></asp:TextBox>
                 <asp:TextBox class="textbox_display" ID="confirmPassword_textbox" runat="server" placeholder="Confirm Password" TextMode="Password"></asp:TextBox>
                 <br />

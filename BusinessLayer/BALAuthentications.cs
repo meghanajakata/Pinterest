@@ -1,5 +1,7 @@
 ﻿using BusinessModels;
 using DataAccessLayer;
+using System.Text;
+using System;
 
 namespace BusinessLayer
 {
@@ -13,9 +15,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool SignUp(UserDetails user)
+        public string SignUp(UserDetails user)
         {
-            DALAuthentications dalObj = new DALAuthentications();
+            DataFactory dataFactoryObj = new DataFactory();
+            IData dalObj = dataFactoryObj.GetAuthenticationsObject();
+            user.Password = EncryptPassword(user.Password);
             return dalObj.SignUp(user);
         }
 
@@ -24,10 +28,39 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool Login(UserDetails user)
+        public string Login(UserDetails user)
         {
-            DALAuthentications dalObj = new DALAuthentications();
+            DataFactory dataFactoryObj = new DataFactory();
+            IData dalObj = dataFactoryObj.GetAuthenticationsObject();
+            user.Password = EncryptPassword(user.Password);
             return dalObj.Login(user);
+        }
+
+        /// <summary>
+        /// Checks whether the password update is successful
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public string ForgotPassword(UserDetails user)
+        {
+            DataFactory dataFactoryObj = new DataFactory();
+            IData dalObj = dataFactoryObj.GetAuthenticationsObject();
+            user.Password = EncryptPassword(user.Password);
+            return dalObj.ForgotPassword(user);
+        }
+
+        /// <summary>
+        /// Method to encrypt the password 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public string EncryptPassword(string password)
+        {
+            string msg = "";
+            byte[] encode = new byte[password.Length];
+            encode = Encoding.UTF8.GetBytes(password);
+            msg = Convert.ToBase64String(encode);
+            return msg;
         }
     }
 }

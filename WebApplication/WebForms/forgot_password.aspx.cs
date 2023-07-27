@@ -1,10 +1,6 @@
 ﻿using BusinessModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+
 
 namespace WebApplication.WebForms
 {
@@ -21,12 +17,23 @@ namespace WebApplication.WebForms
             user.UserName = username_textbox.Text;
             user.Password = password_textbox.Text;
 
-            string confirmPassword = submit_button.Text;
+            string confirmPassword = confirmPassword_textbox.Text;
 
-            Authentications authObj = new Authentications();
-            authObj.ForgotPassword(user);
+            if(confirmPassword == user.Password)
+            {
+                Authentications authObj = new Authentications();
 
-            isvalid_textbox.Text = Literals.Password_Update_Successful;
+                isvalid_textbox.Text = authObj.ForgotPassword(user);
+
+            }
+
+            else
+            {
+                isvalid_textbox.ForeColor = System.Drawing.Color.Red; ;
+                isvalid_textbox.Text = Literals.Invalid_ConfirmPassword;
+            }
+            
+
         }
     }
 }
